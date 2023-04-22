@@ -1,0 +1,152 @@
+openapi: 3.0.0
+x-stoplight:
+  id: assodh72302nr
+info:
+  title: Zipster
+  version: '1.0'
+servers:
+  - url: 'http://localhost:33333/{basePath}'
+    variables:
+      basePath:
+        enum:
+          - v1
+        default: v1
+paths:
+  '/objects.zip':
+    post:
+      summary: Object zipping 요청
+      operationId: zipObjects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZippingResponse'
+      tags:
+        - zipster
+      description: 임의의 Object 목록에 대한 zipping 요청
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ZippingRequest'
+  /injuk:
+    get:
+      summary: Injuk 조회
+      tags:
+        - zipster
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Injuk'
+      operationId: getInjuk
+components:
+  schemas:
+    ZippingRequest:
+      title: ZippingRequest
+      x-stoplight:
+        id: tw9u87bchp5pe
+      type: object
+      description: zipping 요청
+      properties:
+        targets:
+          type: array
+          x-stoplight:
+            id: apsaj3vfdk642
+          items:
+            $ref: '#/components/schemas/ZippingTarget'
+            x-stoplight:
+              id: i5wa4qtfh80av
+      required:
+        - targets
+    ZippingResponse:
+      title: ZippingResponse
+      x-stoplight:
+        id: r60xx25oa9hqi
+      type: object
+      description: zipping 요청에 대한 응답
+      properties:
+        result:
+          type: string
+          x-stoplight:
+            id: cwf4jblxdapmf
+    ZippingTarget:
+      title: ZippingTarget
+      x-stoplight:
+        id: rnoi8ure0n3tu
+      type: object
+      description: 개별 zipping 대상과 관련된 정보
+      properties:
+        provider:
+          type: string
+          x-stoplight:
+            id: 2wxcik24rhsv6
+          enum:
+            - S3
+          example: S3
+        data:
+          $ref: '#/components/schemas/TargetDetail'
+          x-stoplight:
+            id: k31xs1578f872
+      required:
+        - provider
+        - data
+    ObjectInfo:
+      title: ObjectInfo
+      x-stoplight:
+        id: 7mzviigpknd2b
+      type: object
+      description: zipping 대상 object의 이름 관련 정보
+      properties:
+        key:
+          type: string
+          x-stoplight:
+            id: ayfgn8neru4o8
+          description: 실제 object key
+        displayName:
+          type: string
+          x-stoplight:
+            id: kd07ayr6qvegk
+          description: zipping 결과에 저장될 파일명
+      required:
+        - key
+        - displayName
+    TargetDetail:
+      title: TargetDetail
+      x-stoplight:
+        id: vlhoj99lbgrkv
+      type: object
+      description: 개별 zipping 대상과 관련된 상세 정보
+      properties:
+        bucket:
+          type: string
+          x-stoplight:
+            id: 2fb6r2lbr2itc
+          description: bucket 이름
+        objects:
+          type: array
+          x-stoplight:
+            id: zi8j8pes6manm
+          items:
+            $ref: '#/components/schemas/ObjectInfo'
+            x-stoplight:
+              id: gwqzmgwi49k2z
+      required:
+        - bucket
+        - objects
+    Injuk:
+      title: Injuk
+      x-stoplight:
+        id: p33pe6i0rnsh1
+      type: object
+      description: injuk 관련 정보
+      properties:
+        meaning:
+          type: string
+          x-stoplight:
+            id: 3vhcl88dw11yg
+          description: injuk의 의미
